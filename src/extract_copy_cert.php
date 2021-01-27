@@ -4,7 +4,7 @@
 * En el fichero de configuración del PfSense, busca los certificados que contengan en la descripción el texto configurado.
 * Crea un nuevo XML que contiene solo estos nodos. 
 * Actualiza la CA 
-* Copia el XML hacia los servidores especificados el certificado a actualizar y el script de actualización (si no existe)
+* Copia el XML hacia los servidores especificados el certificado a actualizar
 * Lanza el script de actualización
 *
 * $ficheroPath --- ruta del fichero del cual va a extraer los certificados (Fichero de configuración del PfSense).
@@ -118,10 +118,7 @@ if(file_exists($ficheroPath)){
 		
 		sleep (2);
 		
-		print_r(" - Ejecutando proceso de actualizacion del certificado \r\n");
-		//Comprueba que exista el directorio y el script de actualización. Si no existe, lo copia.
-		exec("ssh root@$servers[$i] [ -d $workDir ] && { [ -f $workDir/update-cert.php ] || scp -r $workDir/update-cert.php  root@$servers[$i]:$workDir/update-cert.php}||scp -r $workDir/update-cert.php  root@$servers[$i]:$workDir/update-cert.php");		
-
+		print_r(" - Ejecutando proceso de actualizacion del certificado \r\n");		
 		//Ejecución del script de actualización de certificados
 		exec("ssh root@$servers[$i] php $workDir/update-cert.php", $retArr);
 		
